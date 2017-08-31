@@ -8,11 +8,11 @@ var file_path = __dirname;
 var current_path = process.cwd();
 
 var cfg_file = argv[1] || current_path + "/config.json"
-console.log(cfg_file)
+debug(cfg_file)
 
 var cfg = require(cfg_file)
 
-console.log(cfg)
+debug(cfg)
 
 var Redis = require('ioredis');
 
@@ -22,7 +22,7 @@ var count = all_count / connections.length
 
 for(var i in connections) {
     var conn = connections[i].split(':')
-    console.log(conn)
+    debug(conn)
 
     var redis = new Redis(conn[1], conn[0]);
 
@@ -32,6 +32,6 @@ for(var i in connections) {
     }
 
     redis.lpush('list', arr).then(function(result){
-        console.log('done = ' + result)
+        debug('done = ' + result)
     })
 } 
