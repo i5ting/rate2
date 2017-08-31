@@ -17,8 +17,11 @@ const app = express();
 
 var rate = require('rate2')(require('./config'))
 
+var i = 0
+
 app.get('/', rate, function (req, res) {
-    res.status(200).json({ name: 'tobi' });
+    i++
+    res.json({ count: i });
 });
 
 app.listen(3000)
