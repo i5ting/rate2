@@ -1,16 +1,8 @@
 var Redis = require('ioredis');
 
 var all_count = 100
-
-// redis.lpush('list', [1,2,3,4,5,6])
-
-// redis.lrange('list', 0 , 100)
-
-// redis.blpop('list', 100).then(function(a){
-//     console.log(a)
-// })
-
 var config = require('./config').conn
+var redisClient = []
 
 var count = all_count / config.length 
 for(var i in config) {
@@ -18,11 +10,39 @@ for(var i in config) {
     console.log(conn)
 
     var redis = new Redis(conn[1], conn[0]);
-
-    var arr = []
-    for (var j = 1 ; i <= count; i++) {
-        arr.push(i)
-    }
-
-    redis.lpush('list', arr)
+    redisClient.push(redis)
 } 
+
+var n_requrest = 0;//请求总数
+var m_redis = redisClient.length;// redis个数
+
+function deleteOne (arr, item) {
+    arr.splice(
+        arr.indexOf(item), 1
+    )
+    return arr 
+}
+
+module.exports = function(req, res, next) {
+    var i_redis = n_requrest%m_redis;
+
+    var c_client = redisClient[i_redis] //获取第i个redis连接
+
+    c_client.exists('list1').then(function(isKeyExists){
+        if (isKeyExists === 1) {
+            // 如果存在，则blpop
+            c_client.blpop('list', 100).then(function(res){
+                // console.log(a)
+                next()
+            }).catch(function(err) {
+                next()
+            })
+        }else {
+            // 如果key不存在，则移除redis链接
+            deleteOne(redisClient, c_client)
+
+            // 重定向
+            res.redirect('https://www.baidu.com/')
+        }
+    })
+}
