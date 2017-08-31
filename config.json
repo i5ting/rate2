@@ -1,9 +1,9 @@
 {
-    "key": "rate_list4",
+    "key": "rate_list6",
     "count": 10,
     "conn": [
         "127.0.0.1:6379",
         "127.0.0.1:6378"
     ],
-    "redirect_url": "'https://www.baidu.com/'"
+    "redirect_url": "https://www.baidu.com/"
 }

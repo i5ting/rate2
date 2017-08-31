@@ -28,15 +28,19 @@ function deleteOne (arr, item) {
 }
 
 module.exports = function(req, res, next) {
+    n_requrest++;
     var i_redis = n_requrest%m_redis;
 
     var c_client = redisClient[i_redis] //获取第i个redis连接
+    var conn = config[i_redis].split(':')
+    console.log(conn)
+ 
 
     c_client.exists(key).then(function(isKeyExists){
         if (isKeyExists === 1) {
             // 如果存在，则blpop
             c_client.blpop(key, 100).then(function(res){
-                console.log(res)
+                console.log(conn + " - " + res)
                 next()
             }).catch(function(err) {
                 next()
