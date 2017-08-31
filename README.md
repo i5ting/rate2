@@ -1,5 +1,7 @@
 
+# rate2
 
+express 限流器
 
 ## 准备
 
@@ -19,4 +21,19 @@ redis-server --port 6379
 //     console.log(a)
 // })
 
+```
+
+## Usages
+
+```
+const express = require('express')
+const app = express();
+
+var rate = require('rate2')(require('./config'))
+
+app.get('/', rate, function (req, res) {
+    res.status(200).json({ name: 'tobi' });
+});
+
+app.listen(3000)
 ```
