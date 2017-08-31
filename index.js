@@ -1,7 +1,9 @@
 var Redis = require('ioredis');
 
+
 var all_count = require('./config').count
 var config = require('./config').conn
+var key = require('./config').key
 var redirect_url = require('./config').redirect_url
 
 var redisClient = []
@@ -30,11 +32,11 @@ module.exports = function(req, res, next) {
 
     var c_client = redisClient[i_redis] //获取第i个redis连接
 
-    c_client.exists('list1').then(function(isKeyExists){
+    c_client.exists(key).then(function(isKeyExists){
         if (isKeyExists === 1) {
             // 如果存在，则blpop
-            c_client.blpop('list', 100).then(function(res){
-                // console.log(a)
+            c_client.blpop(key, 100).then(function(res){
+                console.log(res)
                 next()
             }).catch(function(err) {
                 next()

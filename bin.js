@@ -15,10 +15,12 @@ var cfg = require(cfg_file)
 debug(cfg)
 
 var Redis = require('ioredis');
-
+var key = cfg.key
 var all_count = cfg.count
 var connections = cfg.conn
 var count = all_count / connections.length 
+
+console.log(count)
 
 for(var i in connections) {
     var conn = connections[i].split(':')
@@ -27,11 +29,11 @@ for(var i in connections) {
     var redis = new Redis(conn[1], conn[0]);
 
     var arr = []
-    for (var j = 1 ; i <= count; i++) {
-        arr.push(i)
+    for (var j = 1; j <= count; j++) {
+        arr.push(j)
     }
 
-    redis.lpush('list', arr).then(function(result){
+    redis.lpush(key, arr).then(function(result){
         debug('done = ' + result)
     })
 } 
