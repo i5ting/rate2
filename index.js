@@ -26,7 +26,7 @@ module.exports = function (cfg) {
         var i_redis = n_requrest % m_redis;
 
         var c_client = redisClient[i_redis] //获取第i个redis连接
-        var conn = config[i_redis].split(':')
+        var conn = config[i_redis]
         console.log(conn)
 
 
