@@ -1,7 +1,7 @@
 {
   "name": "rate2",
   "version": "1.0.4",
-  "description": "",
+  "description": "express ratelimit with multi redis client",
   "bin": {
     "create": "bin.js"
   },
@@ -10,9 +10,9 @@
     "bin": "DEBUG=rate node bin.js",
     "test": "./node_modules/.bin/mocha -u bdd"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["express", "ratelimit", "redis"],
+  "author": "i5ting",
+  "license": "MIT",
   "dependencies": {
     "debug": "^3.0.1",
     "ioredis": "^3.1.4"
