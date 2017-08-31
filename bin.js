@@ -36,4 +36,4 @@ for(var i in connections) {
     redis.lpush(key, arr).then(function(result){
         debug('done = ' + result)
     })
-} 
+}
