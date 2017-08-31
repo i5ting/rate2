@@ -1,7 +1,9 @@
 var Redis = require('ioredis');
 
-var all_count = 100
+var all_count = require('./config').count
 var config = require('./config').conn
+var redirect_url = require('./config').redirect_url
+
 var redisClient = []
 
 var count = all_count / config.length 
@@ -42,7 +44,7 @@ module.exports = function(req, res, next) {
             deleteOne(redisClient, c_client)
 
             // 重定向
-            res.redirect('https://www.baidu.com/')
+            res.redirect(redirect_url)
         }
     })
 }

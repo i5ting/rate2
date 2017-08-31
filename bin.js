@@ -1,6 +1,6 @@
 var Redis = require('ioredis');
 
-var all_count = 100
+var all_count = require('./config').count
 
 // redis.lpush('list', [1,2,3,4,5,6])
 
