@@ -47,7 +47,7 @@ module.exports = function(req, res, next) {
             })
         }else {
             // 如果key不存在，则移除redis链接
-            deleteOne(redisClient, c_client)
+            // deleteOne(redisClient, c_client)
 
             // 重定向
             res.redirect(redirect_url)

@@ -1,5 +1,5 @@
 {
-    "key": "rate_list6",
+    "key": "rate_list7",
     "count": 10,
     "conn": [
         "127.0.0.1:6379",
