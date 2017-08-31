@@ -31,11 +31,23 @@ app.listen(3000)
     "key": "rate_list7",
     "count": 10,
     "conn": [
-        "127.0.0.1:6379",
-        "127.0.0.1:6378"
+      {
+        "port": 6379,
+        "host": "127.0.0.1",
+        "family": 4,
+        "password": "",
+        "db": 0
+      },
+      {
+        "port": 6378,
+        "host": "127.0.0.1",
+        "family": 4,
+        "password": "",
+        "db": 0
+      }
     ],
     "redirect_url": "https://www.baidu.com/"
-}
+  }
 ```
 
 ## 测试
