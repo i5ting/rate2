@@ -1,20 +1,27 @@
+#!/usr/bin/env node
+
+var debug = require('debug')('rate')
+var argv = process.argv;
+argv.shift();
+
+var file_path = __dirname;
+var current_path = process.cwd();
+
+var cfg_file = argv[1] || current_path + "/config.json"
+console.log(cfg_file)
+
+var cfg = require(cfg_file)
+
+console.log(cfg)
+
 var Redis = require('ioredis');
 
-var all_count = require('./config').count
+var all_count = cfg.count
+var connections = cfg.conn
+var count = all_count / connections.length 
 
-// redis.lpush('list', [1,2,3,4,5,6])
-
-// redis.lrange('list', 0 , 100)
-
-// redis.blpop('list', 100).then(function(a){
-//     console.log(a)
-// })
-
-var config = require('./config').conn
-
-var count = all_count / config.length 
-for(var i in config) {
-    var conn = config[i].split(':')
+for(var i in connections) {
+    var conn = connections[i].split(':')
     console.log(conn)
 
     var redis = new Redis(conn[1], conn[0]);
@@ -24,5 +31,7 @@ for(var i in config) {
         arr.push(i)
     }
 
-    redis.lpush('list', arr)
+    redis.lpush('list', arr).then(function(result){
+        console.log('done = ' + result)
+    })
 } 
