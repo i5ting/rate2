@@ -10,10 +10,10 @@ module.exports = function (cfg) {
     var redisClient = []
 
     for (var i in config) {
-        var conn = config[i].split(':')
+        var conn = config[i]
         console.log(conn)
 
-        var redis = new Redis(conn[1], conn[0]);
+        var redis = new Redis(conn);
         redisClient.push(redis)
     }
 

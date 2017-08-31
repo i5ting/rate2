@@ -23,10 +23,10 @@ var count = all_count / connections.length
 console.log(count)
 
 for(var i in connections) {
-    var conn = connections[i].split(':')
+    var conn = connections[i]
     debug(conn)
 
-    var redis = new Redis(conn[1], conn[0]);
+    var redis = new Redis(conn);
 
     var arr = []
     for (var j = 1; j <= count; j++) {
