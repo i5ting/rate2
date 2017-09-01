@@ -3,11 +3,12 @@
   "version": "1.0.5",
   "description": "express ratelimit with multi redis client",
   "bin": {
-    "create": "bin.js"
+    "create": "data.js"
   },
   "main": "index.js",
   "scripts": {
-    "bin": "DEBUG=rate node bin.js",
+    "data": "DEBUG=rate node data.js",
+    "enable": "DEBUG=rate node enable.js",
     "test": "./node_modules/.bin/mocha -u bdd"
   },
   "keywords": [

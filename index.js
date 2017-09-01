@@ -29,21 +29,32 @@ module.exports = function (cfg) {
         var conn = config[i_redis]
         console.log(conn)
 
-
-        c_client.exists(key).then(function (isKeyExists) {
-            if (isKeyExists === 1) {
-                // 如果存在，则blpop
-                c_client.blpop(key, 100).then(function (res) {
-                    console.log(conn + " - " + res)
-                    next()
-                }).catch(function (err) {
-                    console.log(err)
-                    next()
-                })
+        c_client.mget('enable','url').then(function(result) {
+            console.log('check if enable ' + result)
+            if (parseInt(result[0]) == 1) {
+                console.log('rate now')
+                rate ()
             } else {
-                // 重定向
-                res.redirect(redirect_url)
+                res.redirect(result[1])
             }
         })
+
+        function rate () {
+            c_client.exists(key).then(function (isKeyExists) {
+                if (isKeyExists === 1) {
+                    // 如果存在，则blpop
+                    c_client.blpop(key, 100).then(function (res) {
+                        console.log(conn + " - " + res)
+                        next()
+                    }).catch(function (err) {
+                        console.log(err)
+                        next()
+                    })
+                } else {
+                    // 重定向
+                    res.redirect(redirect_url)
+                }
+            })
+        }
     }
 }
