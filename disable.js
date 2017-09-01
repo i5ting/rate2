@@ -17,4 +17,4 @@ debug(cfg)
 
 var rate = require('.')(cfg)
 
-rate.enable()
+rate.disable('https://cnodejs.org/')

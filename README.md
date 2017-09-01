@@ -21,7 +21,7 @@ var rate = require('rate2')(require('./config'))
 
 var i = 0
 
-app.get('/', rate, function (req, res) {
+app.get('/', rate.middleware, function (req, res) {
     i++
     res.json({ count: i });
 });
@@ -55,6 +55,41 @@ app.listen(3000)
   }
 ```
 
+## Api
+
+- 初始化参数是json配置项
+
+```
+var rate = require('rate2')(require('./config'))
+```
+
+- 开启限流
+
+```
+rate.enable()
+```
+
+- 关闭限流
+
+```
+rate.disable('https://cnodejs.org/')
+```
+
+- 制造数据
+
+```
+rate.makeData()
+```
+
+- express中间件
+
+```
+app.get('/', rate.middleware, function (req, res) {
+    i++
+    res.json({ count: i });
+});
+```
+
 ## 测试
 
 1）准备
@@ -83,6 +118,10 @@ $ node app
 ## redis基础操作
 
 ```
+var Redis = require('ioredis');
+
+var redis = new Redis();
+
 // redis.lpush('list', [1,2,3,4,5,6])
 
 // redis.lrange('list', 0 , 100)
@@ -90,6 +129,13 @@ $ node app
 // redis.blpop('list', 100).then(function(a){
 //     console.log(a)
 // })
+
+redis.mset('enable',1, 'url','https://cnodejs.org/')
+
+
+redis.mget('enable','url').then(function(a) {
+    console.log(a)
+})
 
 ```
 

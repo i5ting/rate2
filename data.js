@@ -14,26 +14,6 @@ var cfg = require(cfg_file)
 
 debug(cfg)
 
-var Redis = require('ioredis');
-var key = cfg.key
-var all_count = cfg.count
-var connections = cfg.conn
-var count = all_count / connections.length 
+var rate = require('.')(cfg)
 
-console.log(count)
-
-for(var i in connections) {
-    var conn = connections[i]
-    debug(conn)
-
-    var redis = new Redis(conn);
-
-    var arr = []
-    for (var j = 1; j <= count; j++) {
-        arr.push(j)
-    }
-
-    redis.lpush(key, arr).then(function(result){
-        debug('done = ' + result)
-    })
-}
+rate.makeData()
