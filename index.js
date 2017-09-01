@@ -4,7 +4,9 @@ var debug = require('debug')('rate2')
 module.exports = function (cfg) {
     var all_count = cfg.count
     var config = cfg.conn
-    var key = cfg.key
+    var key = cfg.rate_key
+    var enable_key = cfg.enable_key
+    var disable_redirect_url_key = enable_key + '_url'
     var redirect_url = cfg.redirect_url
     var count = all_count / cfg.conn.length
 
@@ -23,7 +25,6 @@ module.exports = function (cfg) {
 
     return {
         disable: function(url){
-            var key = cfg.key
             var all_count = cfg.count
             var connections = cfg.conn
             var count = all_count / connections.length 
@@ -36,12 +37,11 @@ module.exports = function (cfg) {
             
                 var redis = new Redis(conn);
             
-                redis.mset('enable', 0, 'url', url)
+                redis.mset(enable_key, 0, disable_redirect_url_key, url)
             }   
             // 断开redis连接
         },
         enable: function(){
-            var key = cfg.key
             var all_count = cfg.count
             var connections = cfg.conn
             var count = all_count / connections.length 
@@ -54,18 +54,15 @@ module.exports = function (cfg) {
             
                 var redis = new Redis(conn);
             
-                redis.mset('enable', 1, 'url', '')
+                redis.mset(enable_key, 1, disable_redirect_url_key, '')
             } 
 
             // 断开redis连接
         },
         makeData: function(){
-            var key = cfg.key
             var all_count = cfg.count
             var connections = cfg.conn
             var count = all_count / connections.length 
-
-            console.log(count)
 
             for(var i in connections) {
                 var conn = connections[i]
@@ -79,7 +76,7 @@ module.exports = function (cfg) {
                 }
 
                 redis.lpush(key, arr).then(function(result){
-                    debug('done = ' + result)
+                    console.log('done = ' + result)
                     // 断开redis连接
                 })
             }
@@ -94,7 +91,7 @@ module.exports = function (cfg) {
             var conn = config[i_redis]
             console.log(conn)
     
-            c_client.mget('enable','url').then(function(result) {
+            c_client.mget(enable_key, disable_redirect_url_key).then(function(result) {
                 console.log('check if enable ' + result)
                 if (parseInt(result[0]) == 1) {
                     console.log('rate now')
@@ -106,6 +103,7 @@ module.exports = function (cfg) {
     
             function rate () {
                 c_client.exists(key).then(function (isKeyExists) {
+                    console.log("isKeyExists = " + isKeyExists)
                     if (isKeyExists === 1) {
                         // 如果存在，则blpop
                         c_client.blpop(key, 100).then(function (res) {
