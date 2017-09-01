@@ -1,7 +1,6 @@
-
 # rate2
 
-express 限流器
+> express 限流器
 
 ![](flow.png)
 
@@ -104,7 +103,9 @@ redis-server --port 6379
 默认按照当前目录的config.js，向2台redis服务器里增加10条数据，每个服务器5条
 
 ```
-$ npm run bin
+$ npm run disable 
+$ npm run enable
+$ npm run data
 ```
 
 3）启动express服务器
@@ -138,7 +139,6 @@ redis.mget('enable','url').then(function(a) {
 })
 
 ```
-
 
 ## Contributing
 
