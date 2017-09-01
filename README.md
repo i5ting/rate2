@@ -140,6 +140,10 @@ redis.mget('enable','url').then(function(a) {
 
 ```
 
+## TODO
+
+如果需要，可以使用msgpack5序列化，来存储config，效果更好
+
 ## Contributing
 
 1. Fork it
