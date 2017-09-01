@@ -1,6 +1,6 @@
 {
   "name": "rate2",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "express ratelimit with multi redis client",
   "bin": {
     "data": "data.js",
