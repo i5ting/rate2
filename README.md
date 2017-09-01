@@ -3,6 +3,8 @@
 
 express 限流器
 
+![](flow.png)
+
 ## Install
 
 ```
