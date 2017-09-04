@@ -1,6 +1,6 @@
 # rate2
 
-> express 限流器
+> express/koa 限流器
 
 ![](flow.png)
 
@@ -12,6 +12,8 @@ $ npm i -S rate2
 
 ## Usages
 
+express
+
 ```
 const express = require('express')
 const app = express();
@@ -20,9 +22,28 @@ var rate = require('rate2')(require('./config'))
 
 var i = 0
 
-app.get('/', rate.middleware, function (req, res) {
+app.get('/', rate.express, function (req, res) {
     i++
     res.json({ count: i });
+});
+
+app.listen(3000)
+```
+
+koa 2
+
+```
+const Koa = require('koa');
+const app = new Koa();
+
+var rate = require('.')(require('./config'))
+var i = 0
+app.use(rate.koa)
+
+app.use(function (ctx, next) {
+    i++
+    console.log({ count: i })
+    return ctx.body = { count: i };
 });
 
 app.listen(3000)
