@@ -5,7 +5,7 @@ var rate = require('.')(require('./config'))
 
 var i = 0
 
-app.get('/', rate.middleware, function (req, res) {
+app.get('/', rate.express, function (req, res) {
     i++
     res.json({ count: i });
 });
